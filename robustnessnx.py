@@ -101,9 +101,9 @@ if __name__ == '__main__':
         if type_proj == 0: # Disease projection
             print("Calculating randomly robustness disease projection ...")
             for p in p_vector:
-                atcNodesToRemove = random.sample(nodes_1_c, int(round(p * len(nodes_1_c))))
                 for q in p_vector:
                     unfrozen_graph = nx.Graph(C)
+                    atcNodesToRemove = random.sample(nodes_1_c, int(round(p * len(nodes_1_c))))
                     icdNodesToRemove = random.sample(nodes_0_c, int(round(q * len(nodes_0_c))))
                     unfrozen_graph.remove_nodes_from(icdNodesToRemove)
                     unfrozen_graph.remove_nodes_from(atcNodesToRemove)
@@ -130,9 +130,9 @@ if __name__ == '__main__':
         elif type_proj == 1: # Active Ingredient projection
             print("Calculating randomly robustness active ingredients projection ...")
             for p in p_vector:
-                icdNodesToRemove = random.sample(nodes_0_c, int(round(p * len(nodes_0_c))))
                 for q in p_vector:
                     unfrozen_graph = nx.Graph(C)
+                    icdNodesToRemove = random.sample(nodes_0_c, int(round(p * len(nodes_0_c))))
                     atcNodesToRemove = random.sample(nodes_1_c, int(round(q * len(nodes_1_c))))
                     unfrozen_graph.remove_nodes_from(icdNodesToRemove)
                     unfrozen_graph.remove_nodes_from(atcNodesToRemove)
@@ -161,10 +161,10 @@ if __name__ == '__main__':
             print("Calculating directed robustness disease projection ...")
             for p in p_vector:
     #            atcNodesToRemove = random.sample(nodes_1_c, int(round(p * len(nodes_1_c))))
-                atcNodesToRemove = list(df_atc.head(int(round(p * len(nodes_1_c))))['node'])
                 for q in p_vector:
                     unfrozen_graph = nx.Graph(C)
     #                icdNodesToRemove = random.sample(nodes_0_c, int(round(q * len(nodes_0_c))))
+                    atcNodesToRemove = list(df_atc.head(int(round(p * len(nodes_1_c))))['node'])
                     icdNodesToRemove = list(df_icd.head(int(round(p * len(nodes_0_c))))['node'])
                     unfrozen_graph.remove_nodes_from(icdNodesToRemove)
                     unfrozen_graph.remove_nodes_from(atcNodesToRemove)
@@ -190,10 +190,10 @@ if __name__ == '__main__':
         elif type_proj == 1: # Active Ingredient projection
             print("Calculating directed robustness active ingredients projection ...")
             for p in p_vector:
-                icdNodesToRemove = list(df_icd.head(int(round(p * len(nodes_0_c))))['node'])
                 for q in p_vector:
                     unfrozen_graph = nx.Graph(C)
     #                atcNodesToRemove = random.sample(nodes_1_c, int(round(q * len(nodes_1_c))))
+                    icdNodesToRemove = list(df_icd.head(int(round(p * len(nodes_0_c))))['node'])
                     atcNodesToRemove = list(df_atc.head(int(round(p * len(nodes_1_c))))['node'])
                     unfrozen_graph.remove_nodes_from(icdNodesToRemove)
                     unfrozen_graph.remove_nodes_from(atcNodesToRemove)
