@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 23 02:24:56 2020
-
-@author: BALAMLAPTOP2
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Created on Sun Jul 19 01:35:18 2020
 
 @author: Irene López-Rodríguez
