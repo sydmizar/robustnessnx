@@ -94,7 +94,7 @@ if __name__ == '__main__':
     print("Defining variables ...")
 #    p_vector = np.arange(0,1,0.1)
 #    p_vector = [ round(x * 0.001, 3) for x in range(0, 1000)]
-    p_vector = [ round(x * 0.1, 1) for x in range(0, 10)]
+    p_vector = [ round(x * 0.01, 2) for x in range(0, 100)]
 #    [ round(x * 0.01, 2) for x in range(0, 100)]
     
     np_avg_degree = np.zeros((len(p_vector), len(p_vector)))
@@ -102,10 +102,10 @@ if __name__ == '__main__':
     np_unconn_nodes = np.zeros((len(p_vector), len(p_vector)))
     np_conn_components = np.zeros((len(p_vector), len(p_vector)))
     np_mean_size = np.zeros((len(p_vector), len(p_vector)))
-    np_clustering = np.zeros((len(p_vector), len(p_vector)))
+#    np_clustering = np.zeros((len(p_vector), len(p_vector)))
 #    type_method = 0
 #    type_proj = 1
-    for i in range(1,101):
+    for i in range(1,11):
         print("Runing iteration ... "+str(i))
         index_p = 0
         index_q = 0
@@ -128,21 +128,21 @@ if __name__ == '__main__':
                 degrees = GP.degree()
                 sum_of_edges = sum(list(dict(degrees).values()))
                 avg_degree = sum_of_edges / GP.number_of_nodes()
-                avg_clustering = nx.average_clustering(GP)
+#                avg_clustering = nx.average_clustering(GP)
                 if i == 1:
                     np_avg_degree[index_p][index_q] = avg_degree
                     np_conn_nodes[index_p][index_q] = nodes_connected
                     np_unconn_nodes[index_p][index_q] = nodes_unconnected
                     np_conn_components[index_p][index_q] = len(components)
                     np_mean_size[index_p][index_q] = mean_size_components
-                    np_clustering[index_p][index_q] = avg_clustering
+#                    np_clustering[index_p][index_q] = avg_clustering
                 else:
                     np_avg_degree[index_p][index_q] = np_avg_degree[index_p][index_q] + avg_degree
                     np_conn_nodes[index_p][index_q] = np_conn_nodes[index_p][index_q] + nodes_connected
                     np_unconn_nodes[index_p][index_q] = np_unconn_nodes[index_p][index_q] + nodes_unconnected
                     np_conn_components[index_p][index_q] = np_conn_components[index_p][index_q] + len(components)
                     np_mean_size[index_p][index_q] = np_mean_size[index_p][index_q] + mean_size_components
-                    np_clustering[index_p][index_q] = np_clustering[index_p][index_q] + avg_clustering
+#                    np_clustering[index_p][index_q] = np_clustering[index_p][index_q] + avg_clustering
                 index_q += 1
             index_q = 0
             index_p += 1
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     np_unconn_nodes = np.true_divide(np_unconn_nodes, i)
     np_conn_components = np.true_divide(np_conn_components, i)
     np_mean_size = np.true_divide(np_mean_size, i)
-    np_clustering = np.true_divide(np_clustering, i)
+#    np_clustering = np.true_divide(np_clustering, i)
     
     print("Creating files ... ")
     df = pd.DataFrame(np_avg_degree, index=p_vector, columns=p_vector)
@@ -170,8 +170,8 @@ if __name__ == '__main__':
     df = pd.DataFrame(np_mean_size, index=p_vector, columns=p_vector)
     df.to_csv('np_mean_size_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
     
-    df = pd.DataFrame(np_clustering, index=p_vector, columns=p_vector)
-    df.to_csv('np_clustering_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+#    df = pd.DataFrame(np_clustering, index=p_vector, columns=p_vector)
+#    df.to_csv('np_clustering_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
 
 
 #np.savetxt('distancia_centroides.out', geodis_centroids, delimiter=',')
