@@ -25,7 +25,7 @@ def nodestoremove(p, q, nodes_0_c, nodes_1_c, df_atc, df_icd, type_method):
         icdNodesToRemove = random.sample(nodes_0_c, int(round(q * len(nodes_0_c))))
     elif type_method == 1:
         atcNodesToRemove = list(df_atc.head(int(round(p * len(nodes_1_c))))['node'])
-        icdNodesToRemove = list(df_icd.head(int(round(p * len(nodes_0_c))))['node'])
+        icdNodesToRemove = list(df_icd.head(int(round(q * len(nodes_0_c))))['node'])
     
     return icdNodesToRemove, atcNodesToRemove
 
