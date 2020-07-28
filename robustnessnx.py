@@ -105,10 +105,52 @@ if __name__ == '__main__':
 #    np_clustering = np.zeros((len(p_vector), len(p_vector)))
 #    type_method = 0
 #    type_proj = 1
-    for i in range(1,11):
-        print("Runing iteration ... "+str(i))
+    if type_method == 0:
+        for i in range(1,11):
+            print("Runing iteration ... "+str(i))
+            index_p = 0
+            index_q = 0
+            for p in p_vector:
+                for q in p_vector:
+                    unfrozen_graph = nx.Graph(C)
+                    icdNodesToRemove, atcNodesToRemove = nodestoremove(p, q, nodes_0_c, nodes_1_c, df_atc, df_icd, type_method)
+                    unfrozen_graph.remove_nodes_from(icdNodesToRemove)
+                    unfrozen_graph.remove_nodes_from(atcNodesToRemove)
+                    if type_proj == 0:
+                        nodes_lst = [x for x in nodes_0_c if x not in icdNodesToRemove]
+                    elif type_proj == 1:
+                        nodes_lst = [x for x in nodes_1_c if x not in atcNodesToRemove]
+                        
+                    GP = bipartite.projected_graph(unfrozen_graph, nodes_lst)
+                    components = sorted(nx.connected_components(GP), key=len, reverse=True)
+                    nodes_connected = sum(list(map(lambda c: len(c), components)))
+                    mean_size_components = nodes_connected / len(components)
+                    nodes_unconnected = len(nodes_0_c) - nodes_connected
+                    degrees = GP.degree()
+                    sum_of_edges = sum(list(dict(degrees).values()))
+                    avg_degree = sum_of_edges / GP.number_of_nodes()
+    #                avg_clustering = nx.average_clustering(GP)
+                    if i == 1:
+                        np_avg_degree[index_p][index_q] = avg_degree
+                        np_conn_nodes[index_p][index_q] = nodes_connected
+                        np_unconn_nodes[index_p][index_q] = nodes_unconnected
+                        np_conn_components[index_p][index_q] = len(components)
+                        np_mean_size[index_p][index_q] = mean_size_components
+    #                    np_clustering[index_p][index_q] = avg_clustering
+                    else:
+                        np_avg_degree[index_p][index_q] = np_avg_degree[index_p][index_q] + avg_degree
+                        np_conn_nodes[index_p][index_q] = np_conn_nodes[index_p][index_q] + nodes_connected
+                        np_unconn_nodes[index_p][index_q] = np_unconn_nodes[index_p][index_q] + nodes_unconnected
+                        np_conn_components[index_p][index_q] = np_conn_components[index_p][index_q] + len(components)
+                        np_mean_size[index_p][index_q] = np_mean_size[index_p][index_q] + mean_size_components
+    #                    np_clustering[index_p][index_q] = np_clustering[index_p][index_q] + avg_clustering
+                    index_q += 1
+                index_q = 0
+                index_p += 1
+    elif type_method == 1:
         index_p = 0
         index_q = 0
+        i = 1
         for p in p_vector:
             for q in p_vector:
                 unfrozen_graph = nx.Graph(C)
@@ -146,6 +188,7 @@ if __name__ == '__main__':
                 index_q += 1
             index_q = 0
             index_p += 1
+        
 
     np_avg_degree = np.true_divide(np_avg_degree, i)
     np_conn_nodes = np.true_divide(np_conn_nodes, i)

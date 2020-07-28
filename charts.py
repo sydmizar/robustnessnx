@@ -129,7 +129,7 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
 
     return texts
 
-data = pd.read_csv('07242020/np_mean_size2_0_0.csv', index_col = 0)
+data = pd.read_csv('07242020/np_mean_size2_1_0.csv', index_col = 0)
 data.drop()
 
 
