@@ -216,4 +216,4 @@ if __name__ == '__main__':
 #    df = pd.DataFrame(np_clustering, index=p_vector, columns=p_vector)
 #    df.to_csv('np_clustering_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
 
-    
+#    np.true_divide(np_avg_degree, i)

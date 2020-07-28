@@ -29,6 +29,31 @@ def nodestoremove(p, q, nodes_0_c, nodes_1_c, df_atc, df_icd, type_method):
     
     return icdNodesToRemove, atcNodesToRemove
 
+def printvalues(np_avg_degree, np_conn_nodes, np_unconn_nodes, np_conn_components, np_mean_size, i, p_vector):
+    np_avg_degree_div = np.true_divide(np_avg_degree, i)
+    np_conn_nodes_div = np.true_divide(np_conn_nodes, i)
+    np_unconn_nodes_div = np.true_divide(np_unconn_nodes, i)
+    np_conn_components_div = np.true_divide(np_conn_components, i)
+    np_mean_size_div = np.true_divide(np_mean_size, i)
+#    np_clustering_div = np.true_divide(np_clustering, i)
+    
+    print("Creating files ... ")
+    df = pd.DataFrame(np_avg_degree_div, index=p_vector, columns=p_vector)
+    df.to_csv('results/np_avg_degree_'+str(type_proj)+'_'+str(type_method)+'_'+str(i)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+    
+    df = pd.DataFrame(np_conn_nodes_div, index=p_vector, columns=p_vector)
+    df.to_csv('results/np_conn_nodes_'+str(type_proj)+'_'+str(type_method)+'_'+str(i)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+    
+    df = pd.DataFrame(np_unconn_nodes_div, index=p_vector, columns=p_vector)
+    df.to_csv('results/np_unconn_nodes_'+str(type_proj)+'_'+str(type_method)+'_'+str(i)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+    
+    df = pd.DataFrame(np_conn_components_div, index=p_vector, columns=p_vector)
+    df.to_csv('results/np_conn_components_'+str(type_proj)+'_'+str(type_method)+'_'+str(i)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+    
+    df = pd.DataFrame(np_mean_size_div, index=p_vector, columns=p_vector)
+    df.to_csv('results/np_mean_size_'+str(type_proj)+'_'+str(type_method)+'_'+str(i)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
+    
+
 
 if __name__ == '__main__':
     # Remover al azar 0 o dirigido 1
@@ -147,6 +172,8 @@ if __name__ == '__main__':
                     index_q += 1
                 index_q = 0
                 index_p += 1
+            printvalues(np_avg_degree, np_conn_nodes, np_unconn_nodes, np_conn_components, np_mean_size, i, p_vector)
+            
     elif type_method == 1:
         index_p = 0
         index_q = 0
@@ -188,30 +215,10 @@ if __name__ == '__main__':
                 index_q += 1
             index_q = 0
             index_p += 1
+        printvalues(np_avg_degree, np_conn_nodes, np_unconn_nodes, np_conn_components, np_mean_size, i, p_vector)
         
 
-    np_avg_degree = np.true_divide(np_avg_degree, i)
-    np_conn_nodes = np.true_divide(np_conn_nodes, i)
-    np_unconn_nodes = np.true_divide(np_unconn_nodes, i)
-    np_conn_components = np.true_divide(np_conn_components, i)
-    np_mean_size = np.true_divide(np_mean_size, i)
-#    np_clustering = np.true_divide(np_clustering, i)
     
-    print("Creating files ... ")
-    df = pd.DataFrame(np_avg_degree, index=p_vector, columns=p_vector)
-    df.to_csv('np_avg_degree_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
-    
-    df = pd.DataFrame(np_conn_nodes, index=p_vector, columns=p_vector)
-    df.to_csv('np_conn_nodes_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
-    
-    df = pd.DataFrame(np_unconn_nodes, index=p_vector, columns=p_vector)
-    df.to_csv('np_unconn_nodes_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
-    
-    df = pd.DataFrame(np_conn_components, index=p_vector, columns=p_vector)
-    df.to_csv('np_conn_components_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
-    
-    df = pd.DataFrame(np_mean_size, index=p_vector, columns=p_vector)
-    df.to_csv('np_mean_size_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
     
 #    df = pd.DataFrame(np_clustering, index=p_vector, columns=p_vector)
 #    df.to_csv('np_clustering_'+str(type_proj)+'_'+str(type_method)+'.csv', index=True, header=True, sep=',', encoding = 'utf-8-sig')
