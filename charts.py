@@ -129,13 +129,13 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
 
     return texts
 
-data = pd.read_csv('07242020/np_mean_size2_1_0.csv', index_col = 0)
-data.drop()
+data = pd.read_csv('07282020/np_mean_size_2_0_1.csv', index_col = 0)
+#data.drop()
 
 
 
 fig, ax = plt.subplots()
-im = ax.imshow(data)
+im = ax.imshow(data, cmap=plt.cm.hot, interpolation="gaussian")
 
 # We want to show all ticks...
 ax.set_xticks(np.arange(len(p_vector)))
@@ -157,6 +157,70 @@ plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
 #ax.set_title("Harvest of local farmers (in tons/year)")
 fig.tight_layout()
 plt.show()
+#
+#vmin = min(data.get_array().min() for image in images)
+#vmax = max(data.get_array().max() for image in images)
+#norm = colors.Normalize(vmin=vmin, vmax=vmax)
+
+fig, ax = plt.subplots()
+
+val1, val2 = 0.5, 1
+data[data<20]= val1
+data[data>20] = val2
+im =ax.imshow(data, interpolation='nearest')
+ax.set_xticks(np.arange(len(p_vector)))
+ax.set_yticks(np.arange(len(p_vector)))
+# ... and label them with the respective list entries
+ax.set_xticklabels(p_vector)
+ax.set_yticklabels(p_vector)
+
+# Rotate the tick labels and set their alignment.
+plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+         rotation_mode="anchor")
+
+# Loop over data dimensions and create text annotations.
+#for i in p_vector:
+#    for j in p_vector:
+#        text = ax.text(j, i, data[str(i)][j],
+#                       ha="center", va="center", color="w")
+
+#ax.set_title("Harvest of local farmers (in tons/year)")
+fig.tight_layout()
+plt.show()
+
+
+lowerBound = 20
+upperBound = 50
+myMatrix = data.to_numpy()
+
+myMatrix =np.ma.masked_where((lowerBound < myMatrix) & 
+                             (myMatrix < upperBound), myMatrix)
+
+
+fig,axs=plt.subplots(2,1)
+#Plot without mask
+axs[0].imshow(myMatrix.data)
+
+#Default is to apply mask
+axs[1].imshow(myMatrix)
+
+plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+threshold = 2
+#data = np.random.random((10,10))
+datamask = np.ma.masked_greater(data.to_numpy(), threshold)
+
+fig, ax = plt.subplots()
+im = ax.imshow(datamask, cmap=plt.cm.hot, interpolation='gaussian')
+cbar = fig.colorbar(im, extend='max')
+cbar.cmap.set_over('green')
+
+plt.show()
+
 
 
 p_vector = [round(x * 0.1, 1) for x in range(0, 10)]
@@ -169,6 +233,18 @@ im, cbar = heatmap(data, p_vector, p_vector, ax=ax,
 
 fig.tight_layout()
 plt.show()
+
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.cm as cm
+from matplotlib.colors import Normalize
+
+cmap = cm.get_cmap(plt.rcParams["image.cmap"])
+hm = plt.imshow(data)
+
+
+norm = Normalize(vmin=data.to_numpy().min(), vmax=data.to_numpy().max())
+rgba_values = cmap(norm(data.to_numpy()))
 
 np.random.seed(19680801)
 
