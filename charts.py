@@ -129,7 +129,7 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
 
     return texts
 
-data = pd.read_csv('07282020/np_mean_size_2_0_1.csv', index_col = 0)
+data = pd.read_csv('results/np_mean_size_1_1_1.csv', index_col = 0)
 #data.drop()
 
 
@@ -223,7 +223,7 @@ plt.show()
 
 
 
-p_vector = [round(x * 0.1, 1) for x in range(0, 10)]
+p_vector = [round(x * 0.01, 2) for x in range(0, 100)]
 
 fig, ax = plt.subplots()
 
